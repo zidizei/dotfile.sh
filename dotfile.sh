@@ -1,8 +1,8 @@
 #!/bin/bash
-# **dotfiles** is a shell script to install (symlink) various collections of dotfiles onto your system.
+# **dotfile.sh** is a shell script to install (symlink) various collections of dotfiles onto your system.
 
 #/
-#/ Usage: dotfiles [<options>] <dotfile...>
+#/ Usage: dotfile.sh [<options>] <dotfile...>
 #/
 #/ The <dotfile...> is a space-separated list of dotfile collections that should be installed.
 #/ Collections are found inside folders of the same name under your current working directory.
