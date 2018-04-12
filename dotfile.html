@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv='content-type' content='text/html;charset=utf-8'>
+    <title>dotfiles</title>
+    <style>
+
+#/ CSS for all
+body { font-family: sans-serif; }
+/*--------------------- Typography ----------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:400,700');
+
+/*--------------------- Base Styles ----------------------------*/
+
+body {
+  font-family: "Roboto Slab";
+  line-height: 1.5em;
+  margin: 0;
+}
+
+hr {
+  height: 1px;
+  background: #ddd;
+  border: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #112233;
+  font-weight: bold;
+  font-family: "Roboto Slab";
+  line-height: 1em;
+  margin-top: 50px;
+}
+  h1 {
+    margin: 0;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  h1:after {
+    content: "—";
+    display: block;
+    font-family: "fleurons";
+    color: #999;
+    font-size: 80px;
+    padding: 10px 0 25px;
+  }
+
+a {
+  color: #000;
+}
+
+blockquote {
+  border-left: 5px solid #ccc;
+  margin-left: 0;
+  padding: 1px 0 1px 1em;
+}
+  .page blockquote p {
+    font-family: Menlo, Consolas, Monaco, monospace;
+    font-size: 14px; line-height: 19px;
+    color: #999;
+    margin: 10px 0 0;
+    white-space: pre-wrap;
+  }
+
+pre, tt, code {
+  font-family: Menlo, Consolas, Monaco, monospace;
+  font-size: 12px;
+  display: inline-block;
+  border: 1px solid #EAEAEA;
+  background: #f8f8f8;
+  color: #555;
+  padding: 0 5px;
+  line-height: 20px;
+}
+  .page pre {
+    margin: 0;
+    width: 608px;
+    padding: 10px 15px;
+    background: #fcfcfc;
+    -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.1);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+    box-shadow:         inset 0 0 10px rgba(0,0,0,0.1);
+    overflow-x: auto;
+  }
+    .page pre code {
+      border: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+.fleur {
+  font-family: "fleurons";
+  font-size: 100px;
+  text-align: center;
+  margin: 40px 0;
+  color: #ccc;
+}
+
+/*--------------------- Layout ----------------------------*/
+
+.container {
+  width: 760px;
+  margin: 0 auto;
+  background: #fff;
+  background: rgba(255,255,255, 0.4);
+  overflow: hidden;
+}
+  .page {
+    width: 640px;
+    padding: 30px;
+    margin: 30px;
+    background: #fff;
+    font-size: 17px;
+    line-height: 26px;
+  }
+    .page p {
+      color: #30404f;
+      margin: 26px 0;
+    }
+
+ul.sections {
+  list-style: none;
+  padding:0 0 5px 0;;
+  margin:0;
+}
+
+.page li p {
+  margin: 12px 0;
+}
+
+.toc {
+  max-height: 0;
+  overflow: hidden;
+  text-align: center;
+  font-size: 13px;
+  line-height: 20px;
+  -moz-transition: max-height 1s;
+  -webkit-transition: max-height 1s;
+  transition: max-height 1s;
+}
+
+  .header {
+    margin-top: 24px;
+  }
+
+  .header:hover .toc {
+    max-height: 500px;
+  }
+  .toc h3 {
+    margin-top: 20px;
+  }
+  .toc ol {
+    margin: 0 0 20px 0;
+    display: inline-block;
+    text-align: left;
+    list-style-type: upper-roman;
+  }
+    .toc li {
+      font-family: 'Roboto Slab';
+    }
+      .toc li a {
+        font-family: 'Roboto Slab';
+      }
+
+
+/*---------------------- Syntax Highlighting -----------------------------*/
+
+td.linenos { background-color: #f0f0f0; padding-right: 10px; }
+span.lineno { background-color: #f0f0f0; padding: 0 5px 0 5px; }
+
+.code pre {
+  display: block;
+  overflow: auto;
+}
+
+pre code {
+  display: block; padding: 0.5em;
+  color: #000;
+  background: #f8f8ff
+}
+
+.c { color: #008800; font-style: italic } /* Comment */
+.err { border: 1px solid #FF0000 } /* Error */
+.k { color: #AA22FF; font-weight: bold } /* Keyword */
+.o { color: #666666 } /* Operator */
+.ch { color: #008800; font-style: italic } /* Comment.Hashbang */
+.cm { color: #008800; font-style: italic } /* Comment.Multiline */
+.cp { color: #008800 } /* Comment.Preproc */
+.cpf { color: #008800; font-style: italic } /* Comment.PreprocFile */
+.c1 { color: #008800; font-style: italic } /* Comment.Single */
+.cs { color: #008800; font-weight: bold } /* Comment.Special */
+.gd { color: #A00000 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #FF0000 } /* Generic.Error */
+.gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.gi { color: #00A000 } /* Generic.Inserted */
+.go { color: #888888 } /* Generic.Output */
+.gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.gt { color: #0044DD } /* Generic.Traceback */
+.kc { color: #AA22FF; font-weight: bold } /* Keyword.Constant */
+.kd { color: #AA22FF; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #AA22FF; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #AA22FF } /* Keyword.Pseudo */
+.kr { color: #AA22FF; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #00BB00; font-weight: bold } /* Keyword.Type */
+.m { color: #666666 } /* Literal.Number */
+.s { color: #BB4444 } /* Literal.String */
+.na { color: #BB4444 } /* Name.Attribute */
+.nb { color: #AA22FF } /* Name.Builtin */
+.nc { color: #0000FF } /* Name.Class */
+.no { color: #880000 } /* Name.Constant */
+.nd { color: #AA22FF } /* Name.Decorator */
+.ni { color: #999999; font-weight: bold } /* Name.Entity */
+.ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.nf { color: #00A000 } /* Name.Function */
+.nl { color: #A0A000 } /* Name.Label */
+.nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.nt { color: #008000; font-weight: bold } /* Name.Tag */
+.nv { color: #B8860B } /* Name.Variable */
+.ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.w { color: #bbbbbb } /* Text.Whitespace */
+.mb { color: #666666 } /* Literal.Number.Bin */
+.mf { color: #666666 } /* Literal.Number.Float */
+.mh { color: #666666 } /* Literal.Number.Hex */
+.mi { color: #666666 } /* Literal.Number.Integer */
+.mo { color: #666666 } /* Literal.Number.Oct */
+.sa { color: #BB4444 } /* Literal.String.Affix */
+.sb { color: #BB4444 } /* Literal.String.Backtick */
+.sc { color: #BB4444 } /* Literal.String.Char */
+.dl { color: #BB4444 } /* Literal.String.Delimiter */
+.sd { color: #BB4444; font-style: italic } /* Literal.String.Doc */
+.s2 { color: #BB4444 } /* Literal.String.Double */
+.se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.sh { color: #BB4444 } /* Literal.String.Heredoc */
+.si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.sx { color: #008000 } /* Literal.String.Other */
+.sr { color: #BB6688 } /* Literal.String.Regex */
+.s1 { color: #BB4444 } /* Literal.String.Single */
+.ss { color: #B8860B } /* Literal.String.Symbol */
+.bp { color: #AA22FF } /* Name.Builtin.Pseudo */
+.fm { color: #00A000 } /* Name.Function.Magic */
+.vc { color: #B8860B } /* Name.Variable.Class */
+.vg { color: #B8860B } /* Name.Variable.Global */
+.vi { color: #B8860B } /* Name.Variable.Instance */
+.vm { color: #B8860B } /* Name.Variable.Magic */
+.il { color: #666666 } /* Literal.Number.Integer.Long */
+    </style>
+    </head>
+<body>
+<div class=container id=container>
+    <div id=background></div>
+        <div class=header><h1>dotfiles</h1></div>
+        <div class=docs><p><strong>dotfiles</strong> is a shell script to install (symlink) various collections of dotfiles onto your system.</p>
+
+<span></span></div><div class=code><pre>
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1">#/</span>
+<span class="c1">#/ Usage: dotfiles [&lt;options&gt;] &lt;dotfile...&gt;</span>
+<span class="c1">#/</span>
+<span class="c1">#/ The &lt;dotfile...&gt; is a space-separated list of dotfile collections that should be installed.</span>
+<span class="c1">#/ Collections are found inside folders of the same name under your current working directory.</span>
+<span class="c1">#/</span>
+<span class="c1">#/ Options:</span>
+<span class="c1">#/   -d,--debug          Passing the debug option will set the -x flag for bash.</span>
+<span class="c1">#/   --preview           Don&#39;t actually install any dotfiles.</span>
+<span class="c1">#/                       Pre/post hooks and backup creations are not going to be run as well.</span>
+<span class="c1">#/   --linux             Explicitly install any dotfiles for Linux.</span>
+<span class="c1">#/   --osx               Explicitly install any dotfiles for macOS.</span>
+<span class="nb">set</span> -eo pipefail
+
+<span class="nv">PLATFORM</span><span class="o">=()</span>
+<span class="nv">TARGETS</span><span class="o">=()</span>
+<span class="nv">POSITIONAL</span><span class="o">=()</span>
+<span class="k">while</span> <span class="o">[[</span> <span class="nv">$#</span> -gt <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nv">key</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+
+    <span class="k">case</span> <span class="nv">$key</span> in
+        -d<span class="p">|</span>--debug<span class="o">)</span>
+        <span class="nb">set</span> -x
+        <span class="nb">shift</span> <span class="c1"># past argument</span>
+        <span class="p">;;</span>
+        --preview<span class="o">)</span>
+        <span class="nv">PREVIEW</span><span class="o">=</span><span class="m">1</span>
+        <span class="nb">shift</span> <span class="c1"># past argument</span>
+        <span class="p">;;</span>
+        -p<span class="p">|</span>--platform<span class="o">)</span>
+        <span class="nv">PLATFORM</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+        <span class="nb">shift</span> <span class="c1"># past argument</span>
+        <span class="nb">shift</span> <span class="c1"># past value</span>
+        <span class="p">;;</span>
+        --linux<span class="o">)</span>
+        <span class="nv">PLATFORM</span><span class="o">=</span><span class="s2">&quot;linux&quot;</span>
+        <span class="nb">shift</span>
+        <span class="p">;;</span>
+        --osx<span class="o">)</span>
+        <span class="nv">PLATFORM</span><span class="o">=</span><span class="s2">&quot;osx&quot;</span>
+        <span class="nb">shift</span>
+        <span class="p">;;</span>
+        *<span class="o">)</span>
+        <span class="nv">TARGETS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TARGETS</span><span class="s2"> </span><span class="nv">$key</span><span class="s2">&quot;</span>
+        <span class="nb">shift</span>
+        <span class="p">;;</span>
+    <span class="k">esac</span>
+<span class="k">done</span>
+<span class="nb">set</span> -- <span class="s2">&quot;</span><span class="si">${</span><span class="nv">POSITIONAL</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># restore positional parameters</span>
+
+<span class="o">[</span> -z <span class="si">${</span><span class="nv">PLATFORM</span><span class="p">+x</span><span class="si">}</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">PLATFORM</span><span class="o">=</span><span class="k">$(</span>uname -s <span class="m">2</span>&gt;/dev/null <span class="p">|</span> tr <span class="s1">&#39;[:upper:]&#39;</span> <span class="s1">&#39;[:lower:]&#39;</span> <span class="o">||</span> <span class="nb">echo</span> none<span class="k">)</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<p><strong>dotfiles</strong> works by grouping up your various dotfiles (or any other configuration files, really) in
+folders, that are referred to as <strong>collections</strong>. For example, a collection for Vim configuration files
+could look like the following:</p>
+
+</div><div class=code><pre>
+<span class="c1">#├── vimfiles/</span>
+<span class="c1">#│   ├── vim/</span>
+<span class="c1">#│   ├── INSTALL.sh</span>
+<span class="c1">#│   └── vimrc</span>
+</pre></div><div class=break></div><div class=docs>
+
+<p>By running <code>dotfiles vimfiles</code>, the <code>vimrc</code> file would be symlinked to <code>$HOME/.vimrc</code>
+and the <code>vim</code> folder, which might contain all your plugins for Vim, will be symlinked to <code>$HOME/.vim</code>.</p>
+
+<p>Some collections might require some additional installation steps. These can be defined inside a
+<code>INSTALL.sh</code> file, where a <code>pre()</code> and/or <code>post()</code> function can defined. These hooks will then be called
+before and after the installation of the collection's dotfiles, respectively.</p>
+
+<p>In case there's already a <code>.vimrc</code> file or <code>vim</code> folder present, a backup is created.</p>
+
+<h2>Backing up existing dotfiles</h2>
+
+<p>Backups are created by appending ".backup" the original file's name.</p>
+
+</div><div class=code><pre>
+<span class="k">function</span> backupExistingDotfiles <span class="o">{</span>
+    createBackup<span class="o">()</span> <span class="o">{</span>
+        <span class="nb">echo</span> -e <span class="s2">&quot;\033[0;31mCreating backup of existing dotfiles at </span><span class="nv">$1</span><span class="s2">.backup\033[0m&quot;</span>
+        mv <span class="nv">$1</span> <span class="nv">$1</span>.backup
+    <span class="o">}</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<p>If the file or folder in question already exists, we'll check if maybe a backup
+already exists, too.</p>
+
+<p>If that's the case, the user can decide between two options on how to proceed.
+The first option is to not create a new backup. In this case, the existing file or folder
+will be <strong>removed</strong> and no new backup is created.</p>
+
+<p>The second option is to remove the existing backup instead, so a new
+one can be created.</p>
+
+</div><div class=code><pre>
+    <span class="k">if</span> <span class="o">[</span> -f <span class="nv">$1</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> -d <span class="nv">$1</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="o">[</span> -f <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.backup&quot;</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> -d <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">.backup&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+            <span class="nb">echo</span>
+            <span class="nb">echo</span> -e <span class="s2">&quot;\033[0;33mExisting backup of dotfiles found at </span><span class="nv">$1</span><span class="s2">.backup\033[0m&quot;</span>
+            <span class="k">select</span> yn in <span class="s2">&quot;Do not create a new backup.&quot;</span> <span class="s2">&quot;Override old backup with a new one.&quot;</span><span class="p">;</span> <span class="k">do</span>
+                <span class="k">case</span> <span class="nv">$yn</span> in
+                    <span class="s2">&quot;Do not create a new backup.&quot;</span><span class="o">)</span>
+                    rm -rf <span class="nv">$1</span>
+                    <span class="nb">echo</span> -e <span class="s2">&quot;\033[0;31mRemoving dotfiles at </span><span class="nv">$1</span><span class="s2"> without creating backups!\033[0m&quot;</span>
+                    <span class="k">return</span> <span class="m">0</span>
+                    <span class="p">;;</span>
+                    <span class="s2">&quot;Override old backup with a new one.&quot;</span><span class="o">)</span>
+                    rm -rf <span class="nv">$1</span>.backup
+                    <span class="nb">break</span>
+                    <span class="p">;;</span>
+                <span class="k">esac</span>
+            <span class="k">done</span>
+        <span class="k">fi</span>
+
+        createBackup <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+    <span class="k">fi</span>
+    <span class="k">return</span> <span class="m">0</span>
+<span class="o">}</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<p>After creating the necessary backups of files and folders, the new dotfiles can be installed.
+There are two ways this can happen.</p>
+
+<h2>Symlinking individual dotfiles</h2>
+
+<p>The simplest way is to symlink the individual files and folders. This is also what was shown previously
+with the <code>vimfiles</code> example.</p>
+
+</div><div class=code><pre>
+<span class="k">function</span> linkDotfiles <span class="o">{</span>
+    <span class="k">for</span> f in <span class="k">$(</span>ls -1 <span class="nv">$1</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+</pre></div><div class=break></div><div class=docs>
+
+<p>In order to install dotfiles this way, we will iterate through every file and folder found
+inside a collection and create backups of their original versions on the machine, if necessary.</p>
+
+</div><div class=code><pre>
+        <span class="o">[</span> -z <span class="si">${</span><span class="nv">PREVIEW</span><span class="p">+x</span><span class="si">}</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> backupExistingDotfiles <span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.</span><span class="nv">$f</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$f</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;INSTALL.sh&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</pre></div><div class=break></div><div class=docs>
+
+<p>Then, everything (except the collection specific installation script in <code>INSTALL.sh</code>) will be symlinked
+to the user's home directory.</p>
+
+</div><div class=code><pre>
+            <span class="nb">echo</span> -e <span class="s2">&quot;Linking \033[1;34m</span><span class="nv">$f</span><span class="s2">\033[0m to \033[1;34m</span><span class="nv">$HOME</span><span class="s2">/.</span><span class="nv">$f</span><span class="s2">\033[0m&quot;</span>
+            <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$PREVIEW</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">||</span> ln -s <span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span> -P<span class="k">)</span><span class="s2">/</span><span class="nv">$1</span><span class="s2">/</span><span class="nv">$f</span><span class="s2">&quot;</span> <span class="nv">$HOME</span>/.<span class="nv">$f</span>
+        <span class="k">fi</span>
+    <span class="k">done</span>
+<span class="o">}</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<h2>Symlinking a bundle of dotfiles</h2>
+
+<p>The other way is to symlink to whole collection's folder to a specific target path.
+This is referred to as a <strong>bundle</strong> of dotfiles. Where exactly the folder
+should be symlinked to is specified by the <code>$TARGET</code> variable, which should be
+defined in the <code>INSTALL.sh</code> file.</p>
+
+</div><div class=code><pre>
+<span class="k">function</span> bundleDotfiles <span class="o">{</span>
+    <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$PREVIEW</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">||</span> backupExistingDotfiles <span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;Bundling \033[1;34m</span><span class="nv">$1</span><span class="s2">\033[0m at \033[1;34m</span><span class="nv">$2</span><span class="s2">\033[0m&quot;</span>
+    <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$PREVIEW</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">||</span> ln -s <span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span> -P<span class="k">)</span><span class="s2">/</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="nv">$2</span>
+<span class="o">}</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+</div><div class=code><pre>
+<span class="k">for</span> t in <span class="nv">$TARGETS</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">echo</span> -ne <span class="s2">&quot;Installing \033[1;32m</span><span class="nv">$t</span><span class="s2"> </span><span class="k">$(</span>tput sgr0<span class="k">)</span><span class="s2">...&quot;</span>
+
+    <span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> -f <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">/INSTALL.sh&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="o">(</span>
+            <span class="nb">source</span> <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">/INSTALL.sh&quot;</span>
+            <span class="nb">echo</span>
+            <span class="k">if</span> <span class="nb">type</span> pre <span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span> <span class="k">then</span>
+                <span class="o">(</span>
+                    <span class="nb">echo</span> -e <span class="s2">&quot;\033[0m\033[2mExecuting Pre-Install Hook\033[0m&quot;</span>
+                    pre
+                    <span class="nb">echo</span> -e <span class="s2">&quot;\033[0m\033[2mDone ✓\033[0m&quot;</span>
+                <span class="o">)</span> <span class="p">|</span> sed <span class="s2">&quot;s,.*,</span><span class="k">$(</span>tput setaf <span class="m">8</span><span class="k">)</span><span class="s2">[pre]</span><span class="k">$(</span>tput sgr0<span class="k">)</span><span class="s2"> &amp;,&quot;</span>
+            <span class="k">fi</span>
+            <span class="k">if</span> <span class="o">[</span> -z <span class="si">${</span><span class="nv">TARGET</span><span class="p">+x</span><span class="si">}</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                linkDotfiles <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span>
+            <span class="k">else</span>
+                bundleDotfiles <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TARGET</span><span class="s2">&quot;</span>
+            <span class="k">fi</span>
+            <span class="k">if</span> <span class="nb">type</span> post <span class="p">&amp;</span>&gt;/dev/null<span class="p">;</span> <span class="k">then</span>
+                <span class="o">(</span>
+                    <span class="nb">echo</span> -e <span class="s2">&quot;\033[0m\033[2mExecuting Post-Install Hook\033[0m&quot;</span>
+                    post
+                    <span class="nb">echo</span> -e <span class="s2">&quot;\033[0m\033[2mDone ✓\033[0m&quot;</span>
+                <span class="o">)</span> <span class="p">|</span> sed <span class="s2">&quot;s,.*,</span><span class="k">$(</span>tput setaf <span class="m">8</span><span class="k">)</span><span class="s2">[post]</span><span class="k">$(</span>tput sgr0<span class="k">)</span><span class="s2"> &amp;,&quot;</span>
+            <span class="k">fi</span>
+        <span class="o">)</span>
+    <span class="k">elif</span> <span class="o">[</span> -d <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">echo</span>
+        linkDotfiles <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span>
+    <span class="k">fi</span>
+    tput sgr0
+    <span class="nb">echo</span>
+<span class="k">done</span>
+
+<span class="nb">echo</span> -e <span class="s1">&#39;Installation Finished \033[0;32m✓\033[0m&#39;</span>
+
+
+</pre></div><div class=break></div><div class=docs>
+
+</div><div class=code><pre>
+
+</pre></div><div class=break></div><div class=docs></div>
+    </div>
+</body>
+</html>
