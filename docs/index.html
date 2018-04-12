@@ -254,13 +254,13 @@ pre code {
 <div class=container id=container>
     <div id=background></div>
         <div class=header><h1>dotfile.sh</h1></div>
-        <div class=docs><p><strong>dotfiles</strong> is a shell script to install (symlink) various collections of dotfiles onto your system.</p>
+        <div class=docs><p><strong>dotfile.sh</strong> is a shell script to install (symlink) various collections of dotfiles onto your system.</p>
 
 <span></span></div><div class=code><pre>
 <span class="c1">#!/bin/bash</span>
 
 <span class="c1">#/</span>
-<span class="c1">#/ Usage: dotfiles [&lt;options&gt;] &lt;dotfile...&gt;</span>
+<span class="c1">#/ Usage: dotfile.sh [&lt;options&gt;] &lt;dotfile...&gt;</span>
 <span class="c1">#/</span>
 <span class="c1">#/ The &lt;dotfile...&gt; is a space-separated list of dotfile collections that should be installed.</span>
 <span class="c1">#/ Collections are found inside folders of the same name under your current working directory.</span>
@@ -327,11 +327,14 @@ could look like the following:</p>
 <p>By running <code>dotfiles vimfiles</code>, the <code>vimrc</code> file would be symlinked to <code>$HOME/.vimrc</code>
 and the <code>vim</code> folder, which might contain all your plugins for Vim, will be symlinked to <code>$HOME/.vim</code>.</p>
 
-<p>Some collections might require some additional installation steps. These can be defined inside a
+<p>Some collections might require some additional installation steps. These can be specified inside a
 <code>INSTALL.sh</code> file, where a <code>pre()</code> and/or <code>post()</code> function can defined. These hooks will then be called
 before and after the installation of the collection's dotfiles, respectively.</p>
 
-<p>In case there's already a <code>.vimrc</code> file or <code>vim</code> folder present, a backup is created.</p>
+<p>It is also possible to tell <strong>dotfile.sh</strong> where the files and folders should be installed to
+by setting the <code>$TARGET</code> variable, which defaults to <code>$HOME</code>.</p>
+
+<p>In case there's already a dotfile or folder present, a backup is created.</p>
 
 <h2>Backing up existing dotfiles</h2>
 

@@ -63,11 +63,14 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # By running `dotfiles vimfiles`, the `vimrc` file would be symlinked to `$HOME/.vimrc`
 # and the `vim` folder, which might contain all your plugins for Vim, will be symlinked to `$HOME/.vim`.
 #
-# Some collections might require some additional installation steps. These can be defined inside a
+# Some collections might require some additional installation steps. These can be specified inside a
 # `INSTALL.sh` file, where a `pre()` and/or `post()` function can defined. These hooks will then be called
 # before and after the installation of the collection's dotfiles, respectively.
 #
-# In case there's already a `.vimrc` file or `vim` folder present, a backup is created.
+# It is also possible to tell **dotfile.sh** where the files and folders should be installed to
+# by setting the `$TARGET` variable, which defaults to `$HOME`.
+#
+# In case there's already a dotfile or folder present, a backup is created.
 #
 # ## Backing up existing dotfiles
 #
