@@ -1,10 +1,12 @@
 #!/bin/bash
-# **dotfile.sh** is a shell script to install (symlink) various collections of dotfiles onto your system.
+# **[dotfile.sh](https://github.com/zidizei/dotfile.sh/)** is a shell script to install
+# (symlink) various collections of dotfiles onto your system.
 
 #/
-#/ Usage: dotfile.sh [<options>] <dotfile...>
+#/ Usage: dotfile.sh [<options>] [<dotfile...>]
 #/
 #/ The <dotfile...> is a space-separated list of dotfile collections that should be installed.
+#/ If left out, all the dotfiles that can be found will be installed.
 #/ Collections are found inside folders of the same name under your current working directory.
 #/
 #/ Options:
@@ -13,6 +15,9 @@
 #/                       Pre/post hooks and backup creations are not going to be run as well.
 #/   --linux             Explicitly install any dotfiles for Linux.
 #/   --osx               Explicitly install any dotfiles for macOS.
+
+# Refer to the [README](https://github.com/zidizei/dotfile.sh/blob/master/README.md) for more
+# information about the usage and installation of **dotfile.sh**.
 set -eo pipefail
 
 PLATFORM=()
@@ -147,11 +152,38 @@ function bundleDotfiles {
     [ "$PREVIEW" ] || ln -s "$(pwd -P)/$1" $2
 }
 
+# ## Collections
 #
+# The collections that are to be installed come from the command-line arguments.
+# If none are specified, we'll install all the dotfiles we can find.
+# Otherwise, the script checks if we can find a directory with the same name for each
+# specified collection.
+COLLECTIONS=()
+if [[ "$TARGETS" == "" ]]; then
+    COLLECTIONS=$(ls -1d */)
+else
 for t in $TARGETS; do
+    [ -d "$t" ] && COLLECTIONS="$COLLECTIONS $t"
+done
+fi
+
+# For each found collection, **dotfile.sh** will determine the way its dotfiles should
+# be installed (see above). The most straight-forward check is to see, if an `INSTALL.sh`
+# file can be found.
+for t in $COLLECTIONS; do
     echo -ne "Installing \033[1;32m$t $(tput sgr0)..."
 
-    if [ -d "$t" ] && [ -f "$t/INSTALL.sh" ]; then
+    # If an `INSTALL.sh` file is available, we'll load it into a sub-shell, so we can call its
+    # `pre` and `post` hook functions, if they have been defined. Whether the dotfile collection
+    # should be bundled is determined by the `INSTALL.sh`'s `$TARGET` variable. If it is set,
+    # the collection will be installed as a bundle at the location specified by that variable.
+    #
+    # > **TODO:** Use another extra variable to determine the installation method, since there might
+    # > be cases where someone would want to symlink individual dotfiles at a custom location.
+    # > Right now, this only works for dotfiles and folders being symlinked to `$HOME`.
+    #
+    # If it is not set, the dotfiles are installed using individual symbolic links.
+    if [ -f "$t/INSTALL.sh" ]; then
         (
             source "$t/INSTALL.sh"
             echo
@@ -175,7 +207,10 @@ for t in $TARGETS; do
                 ) | sed "s,.*,$(tput setaf 8)[post]$(tput sgr0) &,"
             fi
         )
-    elif [ -d "$t" ]; then
+
+    # This is also the installation method when a collection does not contain an `INSTALL.sh` file.
+    # The dotfiles and folders are symlinked to the user's home directory.
+    else
         echo
         linkDotfiles "$t"
     fi
@@ -183,4 +218,10 @@ for t in $TARGETS; do
     echo
 done
 
-echo -e 'Installation Finished \033[0;32m✓\033[0m'
+# After all the collections have been iterated through (if there were any), we say goodbye and we're done. 👌
+if [ ${#COLLECTIONS[@]} -gt 0 ]; then
+    echo -e 'Installation Finished \033[0;32m✓\033[0m'
+else
+    echo 'No dotfiles to install ...'
+    echo 'Make sure you specified the right directory names for your dotfiles.'
+fi

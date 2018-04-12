@@ -3,9 +3,10 @@
 Installation script to install and manage your dotfiles (or any other configuration files, really).
 
 ```
-Usage: dotfiles [<options>] <dotfile...>
+Usage: dotfile.sh [<options>] [<dotfile...>]
 
 The <dotfile...> is a space-separated list of dotfile collections that should be installed.
+If left out, all the dotfiles that can be found will be installed.
 Collections are found inside folders of the same name under your current working directory.
 
 Options:

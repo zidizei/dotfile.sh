@@ -254,15 +254,16 @@ pre code {
 <div class=container id=container>
     <div id=background></div>
         <div class=header><h1>dotfile.sh</h1></div>
-        <div class=docs><p><strong>dotfile.sh</strong> is a shell script to install (symlink) various collections of dotfiles onto your system.</p>
+        <div class=docs><p><strong><a href="https://github.com/zidizei/dotfile.sh/">dotfile.sh</a></strong> is a shell script to install (symlink) various collections of dotfiles onto your system.</p>
 
 <span></span></div><div class=code><pre>
 <span class="c1">#!/bin/bash</span>
 
 <span class="c1">#/</span>
-<span class="c1">#/ Usage: dotfile.sh [&lt;options&gt;] &lt;dotfile...&gt;</span>
+<span class="c1">#/ Usage: dotfile.sh [&lt;options&gt;] [&lt;dotfile...&gt;]</span>
 <span class="c1">#/</span>
 <span class="c1">#/ The &lt;dotfile...&gt; is a space-separated list of dotfile collections that should be installed.</span>
+<span class="c1">#/ If left out, all the dotfiles that can be found will be installed.</span>
 <span class="c1">#/ Collections are found inside folders of the same name under your current working directory.</span>
 <span class="c1">#/</span>
 <span class="c1">#/ Options:</span>
@@ -271,6 +272,12 @@ pre code {
 <span class="c1">#/                       Pre/post hooks and backup creations are not going to be run as well.</span>
 <span class="c1">#/   --linux             Explicitly install any dotfiles for Linux.</span>
 <span class="c1">#/   --osx               Explicitly install any dotfiles for macOS.</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<p>Refer to the <a href="https://github.com/zidizei/dotfile.sh/blob/master/README.md">README</a> for more information about the usage and installation of <strong>dotfile.sh</strong>.</p>
+
+</div><div class=code><pre>
 <span class="nb">set</span> -eo pipefail
 
 <span class="nv">PLATFORM</span><span class="o">=()</span>
@@ -435,11 +442,50 @@ defined in the <code>INSTALL.sh</code> file.</p>
 
 </pre></div><div class=break></div><div class=docs>
 
+<h2>Collections</h2>
+
+<p>The collections that are to be installed come from the command-line arguments.
+If none are specified, we'll install all the dotfiles we can find.
+Otherwise, the script checks if we can find a directory with the same name for each
+specified collection.</p>
+
 </div><div class=code><pre>
+<span class="nv">COLLECTIONS</span><span class="o">=()</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="nv">$TARGETS</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nv">COLLECTIONS</span><span class="o">=</span><span class="k">$(</span>ls -1d */<span class="k">)</span>
+<span class="k">else</span>
 <span class="k">for</span> t in <span class="nv">$TARGETS</span><span class="p">;</span> <span class="k">do</span>
+    <span class="o">[</span> -d <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nv">COLLECTIONS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$COLLECTIONS</span><span class="s2"> </span><span class="nv">$t</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+<span class="k">fi</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<p>For each found collection, <strong>dotfile.sh</strong> will determine the way its dotfiles should
+be installed (see above). The most straight-forward check is to see, if an <code>INSTALL.sh</code>
+file can be found.</p>
+
+</div><div class=code><pre>
+<span class="k">for</span> t in <span class="nv">$COLLECTIONS</span><span class="p">;</span> <span class="k">do</span>
     <span class="nb">echo</span> -ne <span class="s2">&quot;Installing \033[1;32m</span><span class="nv">$t</span><span class="s2"> </span><span class="k">$(</span>tput sgr0<span class="k">)</span><span class="s2">...&quot;</span>
 
-    <span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> -f <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">/INSTALL.sh&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</pre></div><div class=break></div><div class=docs>
+
+<p>If an <code>INSTALL.sh</code> file is available, we'll load it into a sub-shell, so we can call its
+<code>pre</code> and <code>post</code> hook functions, if they have been defined. Whether the dotfile collection
+should be bundled is determined by the <code>INSTALL.sh</code>'s <code>$TARGET</code> variable. If it is set,
+the collection will be installed as a bundle at the location specified by that variable.</p>
+
+<blockquote>
+  <p><strong>TODO:</strong> Use another extra variable to determine the installation method, since there might
+be cases where someone would want to symlink individual dotfiles at a custom location.
+Right now, this only works for dotfiles and folders being symlinked to <code>$HOME</code>.</p>
+</blockquote>
+
+<p>If it is not set, the dotfiles are installed using individual symbolic links.</p>
+
+</div><div class=code><pre>
+    <span class="k">if</span> <span class="o">[</span> -f <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">/INSTALL.sh&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
         <span class="o">(</span>
             <span class="nb">source</span> <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">/INSTALL.sh&quot;</span>
             <span class="nb">echo</span>
@@ -463,7 +509,14 @@ defined in the <code>INSTALL.sh</code> file.</p>
                 <span class="o">)</span> <span class="p">|</span> sed <span class="s2">&quot;s,.*,</span><span class="k">$(</span>tput setaf <span class="m">8</span><span class="k">)</span><span class="s2">[post]</span><span class="k">$(</span>tput sgr0<span class="k">)</span><span class="s2"> &amp;,&quot;</span>
             <span class="k">fi</span>
         <span class="o">)</span>
-    <span class="k">elif</span> <span class="o">[</span> -d <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+
+</pre></div><div class=break></div><div class=docs>
+
+<p>This is also the installation method when a collection does not contain an <code>INSTALL.sh</code> file.
+The dotfiles and folders are symlinked to the user's home directory.</p>
+
+</div><div class=code><pre>
+    <span class="k">else</span>
         <span class="nb">echo</span>
         linkDotfiles <span class="s2">&quot;</span><span class="nv">$t</span><span class="s2">&quot;</span>
     <span class="k">fi</span>
@@ -471,7 +524,17 @@ defined in the <code>INSTALL.sh</code> file.</p>
     <span class="nb">echo</span>
 <span class="k">done</span>
 
-<span class="nb">echo</span> -e <span class="s1">&#39;Installation Finished \033[0;32m✓\033[0m&#39;</span>
+</pre></div><div class=break></div><div class=docs>
+
+<p>After all the collections have been iterated through (if there were any), we say goodbye and we're done. 👌</p>
+
+</div><div class=code><pre>
+<span class="k">if</span> <span class="o">[</span> <span class="si">${#</span><span class="nv">COLLECTIONS</span><span class="p">[@]</span><span class="si">}</span> -gt <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> -e <span class="s1">&#39;Installation Finished \033[0;32m✓\033[0m&#39;</span>
+<span class="k">else</span>
+    <span class="nb">echo</span> <span class="s1">&#39;No dotfiles to install ...&#39;</span>
+    <span class="nb">echo</span> <span class="s1">&#39;Make sure you specified the right directory names for your dotfiles.&#39;</span>
+<span class="k">fi</span>
 
 
 </pre></div><div class=break></div><div class=docs>
