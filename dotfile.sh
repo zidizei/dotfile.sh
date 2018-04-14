@@ -86,11 +86,11 @@ function backupExistingDotfiles {
         mv $1 $1.backup
     }
 
-    # If the file or folder in question already exists, we'll check if maybe a backup
-    # already exists, too.
+    # If the file or folder in question already exists, we'll check whether a backup of it
+    # already exists, as well.
     #
     # If that's the case, the user can decide between two options on how to proceed.
-    # The first option is to not create a new backup. In this case, the existing file or folder
+    # The first option is to not create a new backup. This means that the existing file or folder
     # will be **removed** and no new backup is created.
     #
     # The second option is to remove the existing backup instead, so a new
