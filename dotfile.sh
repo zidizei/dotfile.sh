@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
         shift
         ;;
         --osx)
-        PLATFORM="osx"
+        PLATFORM="darwin"
         shift
         ;;
         *)
