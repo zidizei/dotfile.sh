@@ -130,12 +130,12 @@ function linkDotfiles {
     for f in $(ls -1 $1); do
         # In order to install dotfiles this way, we will iterate through every file and folder found
         # inside a collection and create backups of their original versions on the machine, if necessary.
-        [ -z ${PREVIEW+x} ] && backupExistingDotfiles "$HOME/.$f"
+        [ -z ${PREVIEW+x} ] && backupExistingDotfiles "$2/.$f"
         if [ "$f" != "INSTALL.sh" ]; then
             # Then, everything (except the collection specific installation script in `INSTALL.sh`) will be symlinked
-            # to the user's home directory.
-            echo -e "Linking \033[1;34m$f\033[0m to \033[1;34m$HOME/.$f\033[0m"
-            [ "$PREVIEW" ] || ln -s "$(pwd -P)/$1/$f" $HOME/.$f
+            # to the passed in root directory (defaults to $HOME).
+            echo -e "Linking \033[1;34m$f\033[0m to \033[1;34m$2/.$f\033[0m"
+            [ "$PREVIEW" ] || ln -s "$(pwd -P)/$1/$f" $2/.$f
         fi
     done
 }
@@ -178,11 +178,8 @@ for t in $COLLECTIONS; do
     # should be bundled is determined by the `INSTALL.sh`'s `$TARGET` variable. If it is set,
     # the collection will be installed as a bundle at the location specified by that variable.
     #
-    # > **TODO:** Use another extra variable to determine the installation method, since there might
-    # > be cases where someone would want to symlink individual dotfiles at a custom location.
-    # > Right now, this only works for dotfiles and folders being symlinked to `$HOME`.
-    #
-    # If it is not set, the dotfiles are installed using individual symbolic links.
+    # If it is not set, the dotfiles are installed using individual symbolic links. Setting a `$ROOT` variable
+    # will change the root directory where the dotfiles are installed to. (This defaults to `$HOME`)
     if [ -f "$t/INSTALL.sh" ]; then
         (
             source "$t/INSTALL.sh"
@@ -195,7 +192,7 @@ for t in $COLLECTIONS; do
                 ) | sed "s,.*,$(tput setaf 8)[pre]$(tput sgr0) &,"
             fi
             if [ -z ${TARGET+x} ]; then
-                linkDotfiles "$t"
+                linkDotfiles "$t" "${ROOT:-$HOME}"
             else
                 bundleDotfiles "$t" "$TARGET"
             fi
