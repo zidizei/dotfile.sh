@@ -127,15 +127,18 @@ function backupExistingDotfiles {
 # The simplest way is to symlink the individual files and folders. This is also what was shown previously
 # with the `vimfiles` example.
 function linkDotfiles {
+    PREFIX=""
+    [ "$1" == "$HOME" ] && PREFIX="."
+
     for f in $(ls -1 $1); do
         # In order to install dotfiles this way, we will iterate through every file and folder found
         # inside a collection and create backups of their original versions on the machine, if necessary.
-        [ -z ${PREVIEW+x} ] && backupExistingDotfiles "$2/.$f"
+        [ -z ${PREVIEW+x} ] && backupExistingDotfiles "$2/$PREFIX$f"
         if [ "$f" != "INSTALL.sh" ]; then
             # Then, everything (except the collection specific installation script in `INSTALL.sh`) will be symlinked
             # to the passed in root directory (defaults to $HOME).
-            echo -e "Linking \033[1;34m$f\033[0m to \033[1;34m$2/.$f\033[0m"
-            [ "$PREVIEW" ] || ln -s "$(pwd -P)/$1/$f" $2/.$f
+            echo -e "Linking \033[1;34m$f\033[0m to \033[1;34m$2/$PREFIX$f\033[0m"
+            [ "$PREVIEW" ] || ln -s "$(pwd -P)/$1/$f" $2/$PREFIX$f
         fi
     done
 }
