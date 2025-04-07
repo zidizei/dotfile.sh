@@ -212,7 +212,7 @@ for t in $COLLECTIONS; do
     # The dotfiles and folders are symlinked to the user's home directory.
     else
         echo
-        linkDotfiles "$t"
+        linkDotfiles "$t" "$HOME"
     fi
     tput sgr0
     echo
