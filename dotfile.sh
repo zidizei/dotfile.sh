@@ -128,7 +128,7 @@ function backupExistingDotfiles {
 # with the `vimfiles` example.
 function linkDotfiles {
     PREFIX=""
-    [ "$1" == "$HOME" ] && PREFIX="."
+    [ "$2" == "$HOME" ] && PREFIX="."
 
     for f in $(ls -1 $1); do
         # In order to install dotfiles this way, we will iterate through every file and folder found
